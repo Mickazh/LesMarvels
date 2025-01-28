@@ -7,6 +7,8 @@ console.log("Je suis Marvel");
 
 const url = "https://gateway.marvel.com:443/v1/public/characters";
 
+const PORT = process.env.PORT
+
 const fastify = Fastify({ logger: true });
 
 fastify.register(fastifyView, {
@@ -28,4 +30,4 @@ fastify.get("/", (req, res) => {
   );
 });
 
-fastify.listen({ port: 3000 });
+fastify.listen({ port: PORT, host: "0.0.0.0" });
