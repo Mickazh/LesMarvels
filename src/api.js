@@ -25,7 +25,10 @@ export const getData = async (url) => {
   );
 
   const personnages = personnagesAvecTN.map((perso) => {
-    return { imageUrl: `${perso.thumbnail.path}.${perso.thumbnail.extension}` };
+    return {
+      imageUrl: `${perso.thumbnail.path}.${perso.thumbnail.extension}`,
+      name: perso.name,
+    };
   });
 
   return personnages;

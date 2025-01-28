@@ -1,7 +1,31 @@
+import Fastify from "fastify";
 import { getData } from "./api.js";
+import fastifyView from "@fastify/view";
+import handlebars from "handlebars";
 
 console.log("Je suis Marvel");
 
-getData("https://gateway.marvel.com:443/v1/public/characters").then((data) => {
-  console.log(data);
+const url = "https://gateway.marvel.com:443/v1/public/characters";
+
+const fastify = Fastify({ logger: true });
+
+fastify.register(fastifyView, {
+  engine: {
+    handlebars: handlebars,
+  },
+  root: "./templates",
+  options: {
+    partials: {
+      header: "header.hbs",
+      footer: "footer.hbs",
+    },
+  },
 });
+
+fastify.get("/", (req, res) => {
+  getData(url).then((personnages) =>
+    res.view("index.hbs", { personnages })
+  );
+});
+
+fastify.listen({ port: 3000 });
